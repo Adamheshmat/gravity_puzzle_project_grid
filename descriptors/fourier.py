@@ -1,6 +1,6 @@
 import numpy as np
 
-def fourier_descriptor(pts, n=32):
+def fourier_descriptor(pts, n=32): 
     # Convert 2D points into complex numbers
     p = pts[:, 0] + 1j * pts[:, 1]
     
