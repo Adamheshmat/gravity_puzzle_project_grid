@@ -1,0 +1,30 @@
+{
+    "image": "100",
+    "piece_id": 38,
+    "descriptor": [
+        0.0,
+        1.0,
+        0.0,
+        0.0
+    ],
+    "contour": [
+        [
+            0,
+            0
+        ],
+        [
+            27,
+            0
+        ],
+        [
+            27,
+            27
+        ],
+        [
+            0,
+            27
+        ]
+    ],
+    "crop_file": "piece_038.png",
+    "mask_file": "piece_038.png"
+}
