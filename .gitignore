@@ -1,0 +1,6 @@
+outputs/
+
+datasets/Gravity Falls/
+
+__pycache__/
+*.pyc
