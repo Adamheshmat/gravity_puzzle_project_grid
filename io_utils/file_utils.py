@@ -1,8 +1,11 @@
-import os,glob
+import os
+import glob
 
-def ensure_dir(p):os.makedirs(p,exist_ok=True)
+def ensure_dir(path):
+    os.makedirs(path, exist_ok=True)
 
-def list_images(f,exts=('.png','.jpg','.jpeg','.bmp')):
- l=[]
- [l.extend(glob.glob(os.path.join(f,'*'+e))) for e in exts]
- return sorted(l)
+def list_images(folder, exts=('.png', '.jpg', '.jpeg', '.bmp')):
+    imgs = []
+    for e in exts:
+        imgs.extend(glob.glob(os.path.join(folder, '*' + e)))
+    return sorted(imgs)

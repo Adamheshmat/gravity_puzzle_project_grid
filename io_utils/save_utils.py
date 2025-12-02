@@ -1,3 +1,5 @@
+# io_utils/save_utils.py
+
 import os
 import cv2
 from .file_utils import ensure_dir
@@ -14,12 +16,28 @@ def save_intermediate_images(out_root, img_name, gray, den, enh, binary):
 
 
 def prepare_piece_dirs(out_root, img_name):
-    crop_dir = os.path.join(out_root, "pieces", img_name, "crops")
-    ensure_dir(crop_dir)
-    return crop_dir
+    """
+    Creates:
+        pieces/<img_name>/original/
+        pieces/<img_name>/enhanced/
+    Returns dictionary with both folder paths.
+    """
+
+    base_dir = os.path.join(out_root, "pieces", img_name)
+    orig_dir = os.path.join(base_dir, "original")
+    enh_dir = os.path.join(base_dir, "enhanced")
+
+    ensure_dir(orig_dir)
+    ensure_dir(enh_dir)
+
+    return {
+        "original": orig_dir,
+        "enhanced": enh_dir
+    }
 
 
-def save_crop(crop_dir, piece_id, crop):
-    crop_path = os.path.join(crop_dir, f"piece_{piece_id:03}.png")
-    cv2.imwrite(crop_path, crop)
-    return crop_path
+def save_crop(dir_path, piece_id, crop):
+    filename = f"piece_{piece_id:03}.png"
+    full_path = os.path.join(dir_path, filename)
+    cv2.imwrite(full_path, crop)
+    return full_path
