@@ -1,0 +1,189 @@
+# 🧩 Gravity Puzzle Reconstruction – Milestone 1 (Fall 2025)
+### Image Preprocessing, Enhancement, and Grid-Based Segmentation (Option B)
+
+![Python](https://img.shields.io/badge/Python-3.10+-blue.svg)
+![OpenCV](https://img.shields.io/badge/OpenCV-Enabled-green.svg)
+![Status](https://img.shields.io/badge/Milestone-1%20Completed-brightgreen.svg)
+![Platform](https://img.shields.io/badge/Platform-macOS%20%7C%20Windows-lightgrey.svg)
+![License](https://img.shields.io/badge/License-Academic%20Project-orange.svg)
+
+This repository contains the complete implementation of **Milestone 1** for the Gravity Puzzle project.  
+The objective of this milestone is to **preprocess puzzle images**, **enhance them**, and **perform grid-based segmentation** using known puzzle sizes (2×2, 4×4, 8×8).
+
+
+---
+
+## 📌 Overview of Milestone 1
+
+Each puzzle image is passed through a simple but complete preprocessing pipeline:
+
+1. Convert to **grayscale**  
+2. Apply **noise reduction** (Gaussian blur)  
+3. Apply **contrast enhancement** (CLAHE)  
+4. Apply **Otsu binarization**  
+5. Save all intermediate steps  
+6. Perform **grid-based segmentation**  
+7. Save:
+   - Crops from the **original** image  
+   - Crops from the **enhanced** image  
+
+---
+
+## 📁 Project Structure
+
+```
+gravity_puzzle_project/
+│
+├── datasets/
+│   └── Gravity Falls/
+│        ├── puzzle_2x2/
+│        ├── puzzle_4x4/
+│        └── puzzle_8x8/
+│
+├── pipeline/
+│   └── milestone1_pipeline.py
+│
+├── preprocessing/
+│   ├── denoise.py
+│   ├── enhancement.py
+│   └── thresholding.py
+│
+├── segmentation/
+│   └── splitter.py
+│
+├── io_utils/
+│   ├── file_utils.py
+│   └── save_utils.py
+│
+├── outputs/
+│   └── Gravity_Falls/
+│        ├── puzzle_2x2/
+│        ├── puzzle_4x4/
+│        └── puzzle_8x8/
+│            ├── intermediate/
+│            └── pieces/
+│                 └── <image_name>/
+│                       ├── original/
+│                       └── enhanced/
+│
+├── verify_outputs.py
+└── main.py
+```
+
+---
+
+## 🔧 How to Run
+
+Run Milestone 1:
+
+```
+python3 main.py
+```
+
+Verify the number of output tiles:
+
+```
+python3 verify_outputs.py
+```
+
+---
+
+## 🖼 Pipeline Diagram
+
+```
+┌────────────────────────────┐
+│        Load Image          │
+└──────────────┬─────────────┘
+               │
+               ▼
+┌────────────────────────────┐
+│ Convert to Grayscale       │
+└──────────────┬─────────────┘
+               │
+               ▼
+┌────────────────────────────┐
+│ Noise Reduction            │
+│ (Gaussian Blur)            │
+└──────────────┬─────────────┘
+               │
+               ▼
+┌────────────────────────────┐
+│ Contrast Enhancement       │
+│ (CLAHE)                    │
+└──────────────┬─────────────┘
+               │
+               ▼
+┌────────────────────────────┐
+│ Binarization               │
+│ (Otsu Threshold)           │
+└──────────────┬─────────────┘
+               │
+               ▼
+┌────────────────────────────┐
+│ Save Intermediate Images   │
+└──────────────┬─────────────┘
+               │
+               ▼
+┌────────────────────────────┐
+│ Grid Segmentation          │
+│ (2×2 / 4×4 / 8×8)          │
+└──────────────┬─────────────┘
+               │
+               ▼
+┌────────────────────────────┐
+│ Save Original Crops        │
+│ Save Enhanced Crops        │
+└────────────────────────────┘
+```
+
+---
+
+## 📤 Output Description
+
+### Intermediate images:
+```
+outputs/.../intermediate/
+    <image>_gray.png
+    <image>_denoised.png
+    <image>_enhanced.png
+    <image>_binary.png
+```
+
+### Cropped puzzle pieces:
+```
+outputs/.../pieces/<image_name>/
+    ├── original/
+    │      piece_000.png
+    │      piece_001.png
+    │      ...
+    └── enhanced/
+           piece_000.png
+           piece_001.png
+           ...
+```
+
+Tile counts:
+- 2×2 → 4 tiles  
+- 4×4 → 16 tiles  
+- 8×8 → 64 tiles  
+
+---
+
+## 🎯 Why This is Ready for Phase 2
+
+- Enhanced tiles allow better future edge similarity checks  
+- Tile indices match puzzle ordering  
+- Intermediate images assist debugging  
+- Clean directory structure simplifies reconstruction  
+
+---
+
+## 👤 Author
+
+Your Name  
+CSE381 — Fall 2025  
+
+---
+
+## 📝 License
+Academic use only — part of course CSE381 Fall 2025.

@@ -1,46 +1,61 @@
 import os
-import cv2
 
 OUTPUTS_ROOT = "outputs/Gravity_Falls"
 
-def count_files(path, ext=None):
+
+def count_png(path):
+    """Count PNG files in a folder."""
     if not os.path.exists(path):
         return 0
-    if ext:
-        return sum(1 for f in os.listdir(path) if f.endswith(ext))
-    return len(os.listdir(path))
+    return sum(1 for f in os.listdir(path) if f.lower().endswith(".png"))
 
 
 def verify_folder(folder, grid):
     print(f"\n[CHECK] {folder} (grid = {grid})")
 
-    a_path = os.path.join(OUTPUTS_ROOT, folder)
-    intermediate = os.path.join(a_path, "intermediate")
-    pieces_root = os.path.join(a_path, "pieces")
+    base_path = os.path.join(OUTPUTS_ROOT, folder)
+    intermediate = os.path.join(base_path, "intermediate")
+    pieces_root = os.path.join(base_path, "pieces")
 
+    # -----------------------------
     # Check intermediate images
+    # -----------------------------
     if not os.path.exists(intermediate):
         print("  [ERROR] Intermediate folder missing!")
+    else:
+        interm_count = count_png(intermediate)
+        print(f"  Intermediate images: {interm_count}")
+
+    # -----------------------------
+    # Check pieces
+    # -----------------------------
+    if not os.path.exists(pieces_root):
+        print("  [ERROR] Pieces folder missing!")
         return
 
-    interm_count = count_files(intermediate, ".png")
-    print(f"  Intermediate images: {interm_count}")
+    expected_tiles = grid * grid
 
-    # Check tiles inside each image folder
     for img_folder in sorted(os.listdir(pieces_root)):
-        crops_path = os.path.join(pieces_root, img_folder, "crops")
+        img_path = os.path.join(pieces_root, img_folder)
 
-        if not os.path.exists(crops_path):
-            print(f"  [ERROR] Missing crops: {img_folder}")
-            continue
+        orig_dir = os.path.join(img_path, "original")
+        enh_dir = os.path.join(img_path, "enhanced")
 
-        crop_count = count_files(crops_path, ".png")
-
-        expected = grid * grid
-        if crop_count != expected:
-            print(f"  [ERROR] {img_folder}: found {crop_count}, expected {expected}")
+        # Validate original crops
+        if not os.path.exists(orig_dir):
+            print(f"  [ERROR] {img_folder}: missing original/")
         else:
-            print(f"  [OK] {img_folder}: {crop_count} tiles")
+            orig_count = count_png(orig_dir)
+            status = "[OK]" if orig_count == expected_tiles else "[ERROR]"
+            print(f"  {status} {img_folder} original: {orig_count} tiles")
+
+        # Validate enhanced crops
+        if not os.path.exists(enh_dir):
+            print(f"  [ERROR] {img_folder}: missing enhanced/")
+        else:
+            enh_count = count_png(enh_dir)
+            status = "[OK]" if enh_count == expected_tiles else "[ERROR]"
+            print(f"  {status} {img_folder} enhanced: {enh_count} tiles")
 
 
 if __name__ == "__main__":
