@@ -169,21 +169,5 @@ Tile counts:
 
 ---
 
-## 🎯 Why This is Ready for Phase 2
-
-- Enhanced tiles allow better future edge similarity checks  
-- Tile indices match puzzle ordering  
-- Intermediate images assist debugging  
-- Clean directory structure simplifies reconstruction  
-
----
-
-## 👤 Author
-
-Your Name  
-CSE381 — Fall 2025  
-
----
-
 ## 📝 License
 Academic use only — part of course CSE381 Fall 2025.
