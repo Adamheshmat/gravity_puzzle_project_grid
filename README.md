@@ -169,5 +169,134 @@ Tile counts:
 
 ---
 
+## 📌 Overview of Milestone 2
+
+Using the segmented puzzle pieces generated in Milestone 1, the solver performs:
+
+1. Load puzzle pieces and convert them to **LAB color space**
+2. Compute **pairwise horizontal and vertical edge matching costs**
+3. Apply **best-buddies (mutual nearest-neighbor) constraints**
+4. Rank candidate **seed pieces**
+5. Grow the puzzle using **priority-based placement**
+6. Minimize **global seam energy**
+7. Perform **post-assembly refinement** using swap-based optimization
+8. Normalize the final **rotation**
+9. Reconstruct the final image
+10. Compute **quantitative accuracy metrics**
+
+No machine learning or deep learning methods are used.
+
+---
+
+## 🧠 Core Ideas Used
+
+- LAB color space for perceptual robustness  
+- Edge seam comparison using color + texture gradients  
+- Best-buddies constraint to suppress false matches  
+- Priority queue growth instead of greedy placement  
+- Multiple seed attempts to avoid local minima  
+- Global seam energy as an optimization objective  
+- Non-ground-truth refinement using swap-based hill climbing  
+
+---
+
+## 📁 Additional Structure for Milestone 2
+
+```
+pipeline/
+└── solver.py        # Non-ground-truth puzzle solver (Milestone 2)
+```
+
+Solved outputs are written to:
+
+```
+outputs/Gravity_Falls/<puzzle_size>/pieces/<puzzle_id>/solved.png
+```
+
+---
+
+## 🔧 How to Run Milestone 2
+
+After running Milestone 1 and generating puzzle pieces:
+
+```bash
+python3 pipeline/solver.py
+```
+
+The solver will:
+- Assemble each puzzle
+- Save the reconstructed image
+- Print per-puzzle and per-category accuracy statistics
+
+---
+
+## 🧩 Solver Pipeline (Milestone 2)
+
+```
+┌────────────────────────────┐
+│ Load Puzzle Pieces         │
+└──────────────┬─────────────┘
+               │
+               ▼
+┌────────────────────────────┐
+│ Convert to LAB Color Space │
+└──────────────┬─────────────┘
+               │
+               ▼
+┌────────────────────────────┐
+│ Pairwise Edge Cost         │
+│ (Color + Texture)          │
+└──────────────┬─────────────┘
+               │
+               ▼
+┌────────────────────────────┐
+│ Best-Buddies Filtering     │
+└──────────────┬─────────────┘
+               │
+               ▼
+┌────────────────────────────┐
+│ Seed Ranking               │
+└──────────────┬─────────────┘
+               │
+               ▼
+┌────────────────────────────┐
+│ Priority-Based Growth      │
+└──────────────┬─────────────┘
+               │
+               ▼
+┌────────────────────────────┐
+│ Global Refinement          │
+│ (Swap Optimization)        │
+└──────────────┬─────────────┘
+               │
+               ▼
+┌────────────────────────────┐
+│ Rotation Normalization     │
+└──────────────┬─────────────┘
+               │
+               ▼
+┌────────────────────────────┐
+│ Image Reconstruction       │
+│ + Accuracy Evaluation      │
+└────────────────────────────┘
+```
+
+---
+
+## 📊 Evaluation Method (Milestone 2)
+
+Accuracy is computed by comparing predicted piece indices with their expected positions:
+
+- **Accuracy (%) = Correct Placements / Total Pieces × 100**
+- A puzzle is considered **perfectly solved** if accuracy ≥ **99.9%**
+
+Reported metrics include:
+- Per-puzzle accuracy
+- Average accuracy per puzzle size
+- Number of perfect reconstructions
+
+---
+
 ## 📝 License
-Academic use only — part of course CSE381 Fall 2025.
+
+Academic use only — part of **CSE381 / Computer Vision – Fall 2025**.

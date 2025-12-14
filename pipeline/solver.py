@@ -22,8 +22,6 @@ class PuzzleSolver:
         self.top_k = int(top_k)
         self.seed_limit = int(seed_limit)
 
-        # FIX #1: Strip "piece_" prefix so int() can sort correctly
-        # The files are named "piece_000.png", so we replace 'piece_' with empty string
         self.pieces_paths = sorted(pieces_paths, key=lambda x: int(x.stem.replace("piece_", "")))
 
         self.num_pieces = len(self.pieces_paths)
@@ -287,8 +285,6 @@ def run_milestone2():
         else:
             continue
 
-        # FIX #2: The path was missing "/pieces".
-        # Based on your screenshot, the structure is folder -> pieces -> numbered folders
         base_path = OUTPUTS_ROOT / "Gravity_Falls" / folder / "pieces"
 
         if not base_path.exists():
@@ -310,7 +306,6 @@ def run_milestone2():
             if not pieces_dir.exists():
                 continue
 
-            # FIX #1 REPEATED: Handle "piece_" prefix here as well for safe loading
             pieces = sorted(
                 pieces_dir.glob("*.png"),
                 key=lambda x: int(x.stem.replace("piece_", ""))
@@ -320,7 +315,6 @@ def run_milestone2():
                 continue
 
             try:
-                # Recommended settings per size
                 if grid == 2:
                     top_k = 6;
                     seed_limit = 8;
@@ -369,7 +363,7 @@ def run_milestone2():
             except Exception as e:
                 print(f"  [ERR] Puzzle {p_dir.name}: {e}")
                 import traceback
-                traceback.print_exc()  # Print full error to see what actually happened
+                traceback.print_exc()
 
         if count > 0:
             avg_acc = total_acc / count
